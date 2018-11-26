@@ -1,0 +1,18 @@
+
+Dependences: 
+python packages: numpy matplotlib 
+C wrapper: swig
+
+To compile:  
+python3 setup.py build
+
+Run test:
+python3 test.py
+
+PS:
+ the library file xx.so(in ./build/lib... folder) should
+ in the directory where the test.py file is 
+ OR add the path in python script 
+ such as: sys.path.append('./build/lib.linux-x86_64-3.5/')
+
+
