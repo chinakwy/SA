@@ -49,7 +49,7 @@ class VisualFilterLocalization2d:
         if t > 0.1:
             self.canvas.create_line(xs[-2][0] * scale, translated_y(xs[-2][1] * scale),
                                     xs[-1][0] * scale, translated_y(xs[-1][1] * scale),
-                                    fill='#6495ED', dash=(7, 3))  # dash: Line segment
+                                    fill='red', dash=(7, 3))  # dash: Line segment
 
     def draw_pose(self, cov, pose):
         # error ellipse

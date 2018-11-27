@@ -13,7 +13,7 @@ class VisulaDWAFigure:
     def __init__(self, controller_dwa):
         self.controller = controller_dwa
 
-        self.omegaMin = self.controller.omegaMin  # 这里四个为了axVelocity的限制条件
+        self.omegaMin = self.controller.omegaMin  # axVelocity
         self.omegaMax = self.controller.omegaMax
         self.vMin = self.controller.vMin
         self.vMax = self.controller.vMax
@@ -37,7 +37,7 @@ class VisulaDWAFigure:
         self.axVelocity.grid(True, color='#DCDCDC')
         self.axVelocity.set_xlim(self.omegaMin * 180 / np.pi - 10, self.omegaMax * 180 / np.pi + 10)
         self.axVelocity.set_ylim(self.vMin - 0.1, self.vMax + 0.1)
-        self.axVelocity.set_xlabel('omega [deg/s]')
+        self.axVelocity.set_xlabel('omega [°/s]')
         self.axVelocity.set_ylabel('velocity [m/s]')
         self.axVelocity.set_title('Dynamic Window')
         self.axHeadingUtility.set_title('Heading Utility')
@@ -97,35 +97,35 @@ class VisulaDWAFigure:
             self.axVelocity.grid(True, color='#DCDCDC')
             self.axVelocity.set_xlim(self.omegaMin * 180 / np.pi - 10, self.omegaMax * 180 / np.pi + 10)
             self.axVelocity.set_ylim(self.vMin - 0.1, self.vMax + 0.1)
-            self.axVelocity.set_xlabel('omega [deg/s]')
+            self.axVelocity.set_xlabel('omega [°/s]')
             self.axVelocity.set_ylabel('velocity [m/s]')
             self.axVelocity.set_title('Dynamic Window')
 
             self.axHeadingUtility.plot_surface(x_data, y_data, z_headingSurf, cmap='rainbow')
             self.axHeadingUtility.set_title('Heading Utility')
-            self.axHeadingUtility.set_xlabel('omega[deg/s]')
+            self.axHeadingUtility.set_xlabel('omega[°/s]')
             self.axHeadingUtility.set_ylabel('velocities[m/s]')
 
             self.axDistUtility.plot_surface(x_data, y_data, z_distSurf, cmap='rainbow')
             self.axDistUtility.set_title('Obstacle Clearance Utility')
-            self.axDistUtility.set_xlabel('omega[deg/s]')
+            self.axDistUtility.set_xlabel('omega[°/s]')
             self.axDistUtility.set_ylabel('velocities[m/s]')
 
             self.axVelocityUtility.plot_surface(x_data, y_data, z_velocitySurf, cmap='rainbow')
             self.axVelocityUtility.set_title('Velocity Utility')
-            self.axVelocityUtility.set_xlabel('omega[deg/s]')
+            self.axVelocityUtility.set_xlabel('omega[°/s]')
             self.axVelocityUtility.set_ylabel('velocities[m/s]')
 
             self.axApproachUtility.plot_surface(x_data, y_data, z_approachSurf, cmap='rainbow')
             self.axApproachUtility.set_title('Approach Utility')
-            self.axApproachUtility.set_xlabel('omega[deg/s]')
+            self.axApproachUtility.set_xlabel('omega[°/s]')
             self.axApproachUtility.set_ylabel('velocities[m/s]')
 
             self.axUtilitySum.plot_surface(x_data, y_data, z_sumSurf, cmap='rainbow')
             self.axUtilitySum.plot(x_maxUtilityMarker, y_maxUtilityMarker, z_maxUtilityMarker, 'r', label='max Utility')
             self.axUtilitySum.legend(bbox_to_anchor=(0.85, 1), loc=2, borderaxespad=0.)
             self.axUtilitySum.set_title('Summed Utility')
-            self.axUtilitySum.set_xlabel('omega[deg/s]')
+            self.axUtilitySum.set_xlabel('omega[°/s]')
             self.axUtilitySum.set_ylabel('velocities[m/s]')
         else:
             self.axVelocity.plot([], [])

@@ -14,5 +14,7 @@ PS:
  in the directory where the test.py file is 
  OR add the path in python script 
  such as: sys.path.append('./build/lib.linux-x86_64-3.5/')
+ sys.path.append('./c/build/lib.linux-x86_64-3.5/')
+ sys.path.append('./c/build/lib.macosx-10.6-x86_64-3.5/')
 
 

@@ -1,6 +1,8 @@
 import numpy as np
 import sys
 sys.path.append('./c/build/lib.macosx-10.6-x86_64-3.5/')
+sys.path.append('./c/build/lib.macosx-10.12-x86_64-3.7/')
+sys.path.append('./c/build/lib.linux-x86_64-3.5/')
 from c import intersection_detector
 
 

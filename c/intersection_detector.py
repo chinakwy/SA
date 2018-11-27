@@ -103,4 +103,3 @@ do_detect = _intersection_detector.do_detect
 # This file is compatible with both classic and new-style classes.
 
 
-

@@ -5,7 +5,7 @@ from isect_gridmap_rays import ISectGridMapRays
 from visual_translated_y import translated_y
 
 scale = 100
-map_scale = 0.01  # 用在rayStarts
+map_scale = 0.01  # rayStarts
 map_offset = [0, 0]
 
 
@@ -16,7 +16,7 @@ class SensorLandmarks2d:  # sampling_time = 1/15
         self.bearingError = 5 * np.pi / 180
         self.rangeError = 1 / 100
         self.color = 'blue'
-        self.sampling_time = 1 / 15  # Abtastzeit
+        self.sampling_time = 1 / 15
 
         self.ranges = []  # for pd.DataFrame
         self.bearings = []
@@ -81,7 +81,7 @@ class SensorLandmarks2d:  # sampling_time = 1/15
             self.map_obstacles = np.load("./map/office.npy")
 
         self.canvas = canvas
-        self.fov = canvas.create_polygon(0, 0, 0, 0, fill='', outline='gold', width=7)
+        self.fov = canvas.create_polygon(0, 0, 0, 0, fill='', outline='#A9A9A9', width=3)
         self.connections = {}
         for i in range(len(self.landmarks)):
             self.connections[i] = self.canvas.create_line(0, 0, 0, 0, fill='blue', dash=(7, 1, 2, 1), width=2)

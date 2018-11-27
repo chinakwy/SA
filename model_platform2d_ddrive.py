@@ -45,9 +45,9 @@ class ModelPlatform2dDDrive:
         dX = np.dot(J, np.dot(V, self.u.T))
         return dX
 
-    def continuous_integration(self, t, Xs):
+    def continuous_integration(self, t, Xs, t_interval):
         """Solver"""
-        X = odeint(self.model_equations, Xs[-1], [t, t + 0.1])
-        X = X[-1]
+        X_odeint = odeint(self.model_equations, Xs[-1], [t, t + t_interval])
+        X = X_odeint[-1]
         Xs.append(X)
         return Xs

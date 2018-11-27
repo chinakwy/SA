@@ -19,6 +19,7 @@ class VisualCovFigure:
 
     def update_cov_figure(self, i):
         cov = self.filter_slam.state_cov
+
         hCovImg = np.array(cov[-1])
 
         self.im = self.ax.imshow(hCovImg, interpolation='nearest', cmap='gray', origin='upper')

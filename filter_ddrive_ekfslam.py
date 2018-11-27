@@ -49,7 +49,8 @@ class FilterDDriveEKFSlAM:  # Simultaneous Localization And Mapping with Extende
         self.sigmaY = []
         self.sigmaPhi = []
 
-        self.pose = []  # for Data Frame
+        # for Data Frame
+        self.pose = []
         self.cov = []
         self.featurePositions = []
         self.landmarkIds = []
@@ -80,7 +81,7 @@ class FilterDDriveEKFSlAM:  # Simultaneous Localization And Mapping with Extende
 
         sensor = sensor_all[sensor_all.t >= t]  # 1/10,1/100,1/15
         sensor.index = range(len(sensor))
-        for i in range(len(sensor)):  # It is special here, in order to handle 1/10, 1/100, 1/15
+        for i in range(len(sensor)):  # It is special here, in order to handle sampling_time 1/10, 1/100, 1/15
             iPredict = 1
             iUpdate = 1
             while tNow < sensor.t[i]:
@@ -144,6 +145,11 @@ class FilterDDriveEKFSlAM:  # Simultaneous Localization And Mapping with Extende
             self.ts.append(tNow)
             self.states_fordoback.append(state)
 
+        data = {'pose': self.pose, 'cov': self.cov, 'featurePositions': self.featurePositions,
+                'landmarkIds': self.landmarkIds, 'featureCovariances': self.featureCovariances,
+                't': self.ts, 'state': self.states_fordoback}
+        self.out = pd.DataFrame(data)
+
         # =========================create_error_figure
         self.states.append(state)
         self.state_cov.append(state['cov'])
@@ -161,10 +167,6 @@ class FilterDDriveEKFSlAM:  # Simultaneous Localization And Mapping with Extende
         self.sigmaPhi.append(np.power(state['cov'][2][2], 0.5))
         # =================================================
 
-        data = {'pose': self.pose, 'cov': self.cov, 'featurePositions': self.featurePositions,
-                'landmarkIds': self.landmarkIds, 'featureCovariances': self.featureCovariances,
-                't': self.ts, 'state': self.states_fordoback}
-        self.out = pd.DataFrame(data)
         return self.out
 
     def do_prediction(self, x, P, u, T):

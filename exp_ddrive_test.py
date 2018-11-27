@@ -17,7 +17,7 @@ canvas = tk.Canvas(window, bg='white', height=height, width=width)  # Build a ca
 canvas.place(x=0, y=60)  # Canvas placement
 
 var1 = tk.StringVar()
-l1 = tk.Label(window, textvariable=var1, bg='green', font=('Arial', 12), width=15, height=2)
+l1 = tk.Label(window, textvariable=var1, font=('Verdana bold', 18))
 l1.pack()
 
 # =================== main part for simulation ====================
@@ -34,7 +34,7 @@ state = [1, 0]  # state = [mode, tStart]  controller.guide
 states = [state]
 
 controller = GuidanceDDriveSquare()
-controller.length = 2
+controller.length = 4
 
 platform = VisualPlatform2d(canvas)
 platform.robot_radius = 0.1
@@ -54,10 +54,13 @@ def run():
     model = ModelPlatform2dDDrive(controller_output)
     model.wheelRadius = [0.03, 0.03]
     model.wheelDistance = 0.25
+    # ------------------------
+    # controller.length = 2
     # model.wheelRadius = [0.03, 0.0303]
     # model.wheelDistance = 0.255
+    # ------------------------
 
-    Xs = model.continuous_integration(t, Xs)
+    Xs = model.continuous_integration(t, Xs, 0.1)
 
     t += 0.1
     t = round(t, 4)
@@ -72,20 +75,19 @@ def dorun():
     while True:
         if not do_run:
             break
-        var1.set('do Run')
+        var1.set('Running')
         run()
         time.sleep(0.1)
 
 
 def dopause():
-    var1.set('do Pause')
+    var1.set('Pause')
 
 
 do_run = False
 
 
 def toggle_run_pause():
-    """执行运行与暂停"""
     global do_run
     if not do_run:
         do_run = True
@@ -98,7 +100,7 @@ def toggle_run_pause():
 def dostep():
     global do_run
     do_run = False
-    var1.set('do Step')
+    var1.set('Step Forward')
     run()
 
 
@@ -107,7 +109,7 @@ def dostep_back():
     do_run = False
 
     if t > 0.11:
-        var1.set('do StepBack')
+        var1.set('Step Back')
 
         del (Xs[-1])
         del (ts[-1])
@@ -126,10 +128,10 @@ button_img_next_green_gif = tk.PhotoImage(file='./res/next_green.gif')
 button_img_prev_green_gif = tk.PhotoImage(file='./res/prev_green.gif')
 
 
-button_doRun = tk.Button(window, image=button_img_play_green_gif, command=toggle_run_pause).place(x=40, y=10)  # run
-button_doPause = tk.Button(window, image=button_img_pause_green_gif, command=toggle_run_pause).place(x=60, y=10)
-button_doStep = tk.Button(window, image=button_img_next_green_gif, command=dostep).place(x=80, y=10)  # doStep
-button_doStepBack = tk.Button(window, image=button_img_prev_green_gif, command=dostep_back).place(x=100, y=10)  # doBack
+button_doRun = tk.Button(window, image=button_img_play_green_gif, command=toggle_run_pause).place(x=60, y=10)  # run
+button_doPause = tk.Button(window, image=button_img_pause_green_gif, command=toggle_run_pause).place(x=90, y=10)
+button_doStep = tk.Button(window, image=button_img_next_green_gif, command=dostep).place(x=120, y=10)  # doStep
+button_doStepBack = tk.Button(window, image=button_img_prev_green_gif, command=dostep_back).place(x=150, y=10)  # doBack
 
 
 button_exit = tk.Button(window, text='EXIT', command=sys.exit).place(x=0, y=0)

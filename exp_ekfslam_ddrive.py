@@ -6,7 +6,7 @@ from visual_platform2d import VisualPlatform2d
 from model_platform2d_ddrive import ModelPlatform2dDDrive
 from controller_ddrive_follow_path2d import ControllerDDriveFollowPath2d  # 1／50
 from sensor_landmarks2d import SensorLandmarks2d  # 1/15
-from sensor_odometer_wheelspeed import SensorOdometerWheelspeed
+from sensor_odometer_wheelspeed import SensorOdometerWheelspeed  # 1/100
 from filter_ddrive_ekfslam import FilterDDriveEKFSlAM
 from visual_filter_slam2d import VisualFilterSLAM2d
 from visual_filter_localization2d import VisualFilterLocalization2d
@@ -32,11 +32,11 @@ canvas = tk.Canvas(window, bg='white', height=height, width=width)
 
 
 var1 = tk.StringVar()
-l1 = tk.Label(window, textvariable=var1, bg='green', font=('Arial', 12), width=15, height=2)
+l1 = tk.Label(window, textvariable=var1, font=('Verdana bold', 18))
 l1.pack()
 
 var2 = tk.StringVar()
-l2 = tk.Label(window, textvariable=var2, bg='white', font=('Arial', 12))
+l2 = tk.Label(window, textvariable=var2, font=('Arial bold', 12))
 l2.pack()
 var2.set('SLAM with Extended Kalman Filter')
 
@@ -125,8 +125,9 @@ def run():
     X = Xs[-1]
     if t == 0:
         control_outputs = controller.control(t, Xs)
+
     model = ModelPlatform2dDDrive(np.array(control_outputs['u'])[-1])  # u = [omega_r, omega_l]
-    Xs = model.continuous_integration(t, Xs)
+    Xs = model.continuous_integration(t, Xs, 1/15)
 
     estimated_values = slam.filter_step(t, X, Xs, np.array(control_outputs['u'])[-1])
     covs = np.array(estimated_values['cov'])
@@ -153,7 +154,7 @@ def run():
     slam2d.draw_covariances(estimated_values)
     slam2d.draw_lm_associations(estimated_values)
 
-    t += 0.1
+    t += 1/15
     t = round(t, 4)
 
     window.update_idletasks()
@@ -165,20 +166,19 @@ def dorun():
     while True:
         if not do_run:
             break
-        var1.set('do Run')
+        var1.set('Running')
         run()
-        time.sleep(0.1)
+        time.sleep(0.01)
 
 
 def dopause():
-    var1.set('do Pause')
+    var1.set('Pause')
 
 
 do_run = False
 
 
 def toggle_run_pause():
-    """执行运行与暂停"""
     global do_run
     if not do_run:
         do_run = True
@@ -191,7 +191,7 @@ def toggle_run_pause():
 def dostep():
     global do_run
     do_run = False
-    var1.set('do Step')
+    var1.set('Step Forward')
     run()
 
 
@@ -200,7 +200,7 @@ def dostep_back():
     do_run = False
 
     if t > 0.11:
-        var1.set('do StepBack')
+        var1.set('Step Back')
         del (Xs[-1])
         xs = np.delete(xs, -1, axis=0)  # Delete last one row of array
         covs = np.delete(covs, -1, axis=0)
@@ -231,7 +231,7 @@ def dostep_back():
         slam2d.draw_features(estimated_values)
         slam2d.draw_covariances(estimated_values)
         slam2d.draw_lm_associations(estimated_values)
-        t -= 0.1
+        t -= 1/15
         window.update_idletasks()
         window.update()
 
@@ -246,15 +246,15 @@ button_img_covariance_icon_gif = tk.PhotoImage(file='./res/covariance_icon.gif')
 button_img_figure_default_gif = tk.PhotoImage(file='./res/figure_default.gif')
 
 
-button_doRun = tk.Button(window, image=button_img_play_green_gif, command=toggle_run_pause).place(x=40, y=10)  # run
-button_doPause = tk.Button(window, image=button_img_pause_green_gif, command=toggle_run_pause).place(x=60, y=10)
-button_doStep = tk.Button(window, image=button_img_next_green_gif, command=dostep).place(x=80, y=10)  # doStep
-button_doStepBack = tk.Button(window, image=button_img_prev_green_gif, command=dostep_back).place(x=100, y=10)  # doBack
+button_doRun = tk.Button(window, image=button_img_play_green_gif, command=toggle_run_pause).place(x=60, y=10)  # run
+button_doPause = tk.Button(window, image=button_img_pause_green_gif, command=toggle_run_pause).place(x=90, y=10)
+button_doStep = tk.Button(window, image=button_img_next_green_gif, command=dostep).place(x=120, y=10)  # doStep
+button_doStepBack = tk.Button(window, image=button_img_prev_green_gif, command=dostep_back).place(x=150, y=10)  # doBack
 
 button_covariance = tk.Button(window, image=button_img_covariance_icon_gif,
-                              command=visual_covfigure.visual_cov_figure).place(x=120, y=10)
+                              command=visual_covfigure.visual_cov_figure).place(x=180, y=10)
 button_error = tk.Button(window, image=button_img_figure_default_gif,
-                         command=visual_errfigure.visual_error_figure).place(x=140, y=10)
+                         command=visual_errfigure.visual_error_figure).place(x=210, y=10)
 
 button_exit = tk.Button(window, text='EXIT', command=sys.exit).place(x=0, y=0)
 

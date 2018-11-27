@@ -47,7 +47,7 @@ class GuidanceDWA2d:
         self.TrajCandidates_minDist = {}
         self.maxN_TrajCandidates_minDist = 1000
         for _ in range(self.maxN_TrajCandidates_minDist):
-            self.TrajCandidates_minDist[_] = self.canvas.create_line(0, 0, 0, 0, fill='#FF8C00', width=3)  # DarkOrange
+            self.TrajCandidates_minDist[_] = self.canvas.create_line(0, 0, 0, 0, fill='#FF8C00', width=1)  # DarkOrange
 
         self.SelectedTrajectory = {}
         for _ in range(self.maxlen_arcs):

@@ -28,10 +28,10 @@ image = canvas.create_image(0, 0, anchor='nw', image=map_image_file)
 canvas.place(x=40, y=40)
 button_exit = tk.Button(window, text='EXIT', command=sys.exit).place(x=0, y=0)
 var2 = tk.StringVar()
-l2 = tk.Label(window, textvariable=var2, bg='green', font=('Arial', 12), width=10, height=1)
+l2 = tk.Label(window, textvariable=var2, font=('Arial bold', 12))
 l2.pack()
 var1 = tk.StringVar()
-l1 = tk.Label(window, textvariable=var1, bg='green', font=('Arial', 12), width=10, height=1)
+l1 = tk.Label(window, textvariable=var1, font=('Arial bold', 11))
 l1.pack()
 
 
